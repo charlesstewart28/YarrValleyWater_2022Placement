@@ -1,4 +1,4 @@
-# Monthly Bulk Model Performance Testing Across Training Periods
+# Monthly Non Res Model Performance Testing Across Training Periods
 # YVW Placement RMIT University
 # Authors: Charles Stewart - s3628786
 #          Julian De Angelis - s362s3814844
@@ -6,7 +6,7 @@
 
 # Required Libraries
 
-source('monthlyModelFunction_BulkWater_Manual_YVW.R')
+source('monthlyModelFunction_NonResWater_Manual_YVW.R')
 library(ggplot2)
 library(forecast)
 library(readr)
@@ -17,7 +17,7 @@ library(MLmetrics)
 library(gridExtra)
 
 
-# Read in monthly bulk data
+# Read in monthly non residential data
 
 monthlyData <- read.csv('monthlyData.csv')
 monthlyData$Month <- as.yearmon(monthlyData$Month)
@@ -41,15 +41,15 @@ predictPeriod <- 12
 
 pred6 <- data.frame(matrix(ncol=10,nrow=12))
 colnames(pred6) <- c('BilledVolumeP1', 'P1',
-                      'BilledVolumeP2', 'P2',
-                      'BilledVolumeP3', 'P3',
-                      'BilledVolumeP1', 'P4',
-                      'BilledVolumeP5', 'P5')
+                     'BilledVolumeP2', 'P2',
+                     'BilledVolumeP3', 'P3',
+                     'BilledVolumeP1', 'P4',
+                     'BilledVolumeP5', 'P5')
 
 
 for (i in 1:length(initialDates$Month)) {
-  pred6[,((2*i)-1)] <- monthlyData %>% filter(Month >= as.yearmon(initialDates$Date[i]))  %>% filter(Month <= as.yearmon(initialDates$Date[i] + (predictPeriod-1)/12)) %>% select(monthlyBulk)
-  tempForecastSet <- monthlyBulkForecastYVW(monthlyData, initialPredictMonth = initialDates$Month[i], initialPredictYear = initialDates$Year[i], predictPeriod = predictPeriod, trainPeriod = 6)
+  pred6[,((2*i)-1)] <- monthlyData %>% filter(Month >= as.yearmon(initialDates$Date[i]))  %>% filter(Month <= as.yearmon(initialDates$Date[i] + (predictPeriod-1)/12)) %>% select(NonRes)
+  tempForecastSet <- monthlyNonResForecastYVW(monthlyData, initialPredictMonth = initialDates$Month[i], initialPredictYear = initialDates$Year[i], predictPeriod = predictPeriod, trainPeriod = 6)
   pred6[,(2*i)] <- tail(tempForecastSet$Predictions, 12)
 }
 
@@ -59,15 +59,15 @@ for (i in 1:length(initialDates$Month)) {
 
 pred12 <- data.frame(matrix(ncol=10,nrow=12))
 colnames(pred12) <- c('BilledVolumeP1', 'P1',
-                     'BilledVolumeP2', 'P2',
-                     'BilledVolumeP3', 'P3',
-                     'BilledVolumeP1', 'P4',
-                     'BilledVolumeP5', 'P5')
+                      'BilledVolumeP2', 'P2',
+                      'BilledVolumeP3', 'P3',
+                      'BilledVolumeP1', 'P4',
+                      'BilledVolumeP5', 'P5')
 
 
 for (i in 1:length(initialDates$Month)) {
-  pred12[,((2*i)-1)] <- monthlyData %>% filter(Month >= as.yearmon(initialDates$Date[i]))  %>% filter(Month <= as.yearmon(initialDates$Date[i] + (predictPeriod-1)/12)) %>% select(monthlyBulk)
-  tempForecastSet <- monthlyBulkForecastYVW(monthlyData, initialPredictMonth = initialDates$Month[i], initialPredictYear = initialDates$Year[i], predictPeriod = predictPeriod, trainPeriod = 12)
+  pred12[,((2*i)-1)] <- monthlyData %>% filter(Month >= as.yearmon(initialDates$Date[i]))  %>% filter(Month <= as.yearmon(initialDates$Date[i] + (predictPeriod-1)/12)) %>% select(NonRes)
+  tempForecastSet <- monthlyNonResForecastYVW(monthlyData, initialPredictMonth = initialDates$Month[i], initialPredictYear = initialDates$Year[i], predictPeriod = predictPeriod, trainPeriod = 12)
   pred12[,(2*i)] <- tail(tempForecastSet$Predictions, 12)
 }
 
@@ -77,15 +77,15 @@ for (i in 1:length(initialDates$Month)) {
 
 pred18 <- data.frame(matrix(ncol=10,nrow=12))
 colnames(pred18) <- c('BilledVolumeP1', 'P1',
-                     'BilledVolumeP2', 'P2',
-                     'BilledVolumeP3', 'P3',
-                     'BilledVolumeP1', 'P4',
-                     'BilledVolumeP5', 'P5')
+                      'BilledVolumeP2', 'P2',
+                      'BilledVolumeP3', 'P3',
+                      'BilledVolumeP1', 'P4',
+                      'BilledVolumeP5', 'P5')
 
 
 for (i in 2:length(initialDates$Month)) {
-  pred18[,((2*i)-1)] <- monthlyData %>% filter(Month >= as.yearmon(initialDates$Date[i]))  %>% filter(Month <= as.yearmon(initialDates$Date[i] + (predictPeriod-1)/12)) %>% select(monthlyBulk)
-  tempForecastSet <- monthlyBulkForecastYVW(monthlyData, initialPredictMonth = initialDates$Month[i], initialPredictYear = initialDates$Year[i], predictPeriod = predictPeriod, trainPeriod = 18)
+  pred18[,((2*i)-1)] <- monthlyData %>% filter(Month >= as.yearmon(initialDates$Date[i]))  %>% filter(Month <= as.yearmon(initialDates$Date[i] + (predictPeriod-1)/12)) %>% select(NonRes)
+  tempForecastSet <- monthlyNonResForecastYVW(monthlyData, initialPredictMonth = initialDates$Month[i], initialPredictYear = initialDates$Year[i], predictPeriod = predictPeriod, trainPeriod = 18)
   pred18[,(2*i)] <- tail(tempForecastSet$Predictions, 12)
 }
 
@@ -95,15 +95,15 @@ for (i in 2:length(initialDates$Month)) {
 
 pred24 <- data.frame(matrix(ncol=10,nrow=12))
 colnames(pred24) <- c('BilledVolumeP1', 'P1',
-                     'BilledVolumeP2', 'P2',
-                     'BilledVolumeP3', 'P3',
-                     'BilledVolumeP1', 'P4',
-                     'BilledVolumeP5', 'P5')
+                      'BilledVolumeP2', 'P2',
+                      'BilledVolumeP3', 'P3',
+                      'BilledVolumeP1', 'P4',
+                      'BilledVolumeP5', 'P5')
 
 
 for (i in 2:length(initialDates$Month)) {
-  pred24[,((2*i)-1)] <- monthlyData %>% filter(Month >= as.yearmon(initialDates$Date[i]))  %>% filter(Month <= as.yearmon(initialDates$Date[i] + (predictPeriod-1)/12)) %>% select(monthlyBulk)
-  tempForecastSet <- monthlyBulkForecastYVW(monthlyData, initialPredictMonth = initialDates$Month[i], initialPredictYear = initialDates$Year[i], predictPeriod = predictPeriod, trainPeriod = 24)
+  pred24[,((2*i)-1)] <- monthlyData %>% filter(Month >= as.yearmon(initialDates$Date[i]))  %>% filter(Month <= as.yearmon(initialDates$Date[i] + (predictPeriod-1)/12)) %>% select(NonRes)
+  tempForecastSet <- monthlyNonResForecastYVW(monthlyData, initialPredictMonth = initialDates$Month[i], initialPredictYear = initialDates$Year[i], predictPeriod = predictPeriod, trainPeriod = 24)
   pred24[,(2*i)] <- tail(tempForecastSet$Predictions, 12)
 }
 
@@ -114,15 +114,15 @@ for (i in 2:length(initialDates$Month)) {
 
 pred36 <- data.frame(matrix(ncol=10,nrow=12))
 colnames(pred36) <- c('BilledVolumeP1', 'P1',
-                     'BilledVolumeP2', 'P2',
-                     'BilledVolumeP3', 'P3',
-                     'BilledVolumeP1', 'P4',
-                     'BilledVolumeP5', 'P5')
+                      'BilledVolumeP2', 'P2',
+                      'BilledVolumeP3', 'P3',
+                      'BilledVolumeP1', 'P4',
+                      'BilledVolumeP5', 'P5')
 
 
 for (i in 3:length(initialDates$Month)) {
-  pred36[,((2*i)-1)] <- monthlyData %>% filter(Month >= as.yearmon(initialDates$Date[i]))  %>% filter(Month <= as.yearmon(initialDates$Date[i] + (predictPeriod-1)/12)) %>% select(monthlyBulk)
-  tempForecastSet <- monthlyBulkForecastYVW(monthlyData, initialPredictMonth = initialDates$Month[i], initialPredictYear = initialDates$Year[i], predictPeriod = predictPeriod, trainPeriod = 36)
+  pred36[,((2*i)-1)] <- monthlyData %>% filter(Month >= as.yearmon(initialDates$Date[i]))  %>% filter(Month <= as.yearmon(initialDates$Date[i] + (predictPeriod-1)/12)) %>% select(NonRes)
+  tempForecastSet <- monthlyNonResForecastYVW(monthlyData, initialPredictMonth = initialDates$Month[i], initialPredictYear = initialDates$Year[i], predictPeriod = predictPeriod, trainPeriod = 36)
   pred36[,(2*i)] <- tail(tempForecastSet$Predictions, 12)
 }
 
@@ -138,8 +138,8 @@ colnames(pred48) <- c('BilledVolumeP1', 'P1',
 
 
 for (i in 4:length(initialDates$Month)) {
-  pred48[,((2*i)-1)] <- monthlyData %>% filter(Month >= as.yearmon(initialDates$Date[i]))  %>% filter(Month <= as.yearmon(initialDates$Date[i] + (predictPeriod-1)/12)) %>% select(monthlyBulk)
-  tempForecastSet <- monthlyBulkForecastYVW(monthlyData, initialPredictMonth = initialDates$Month[i], initialPredictYear = initialDates$Year[i], predictPeriod = predictPeriod, trainPeriod = 48)
+  pred48[,((2*i)-1)] <- monthlyData %>% filter(Month >= as.yearmon(initialDates$Date[i]))  %>% filter(Month <= as.yearmon(initialDates$Date[i] + (predictPeriod-1)/12)) %>% select(NonRes)
+  tempForecastSet <- monthlyNonResForecastYVW(monthlyData, initialPredictMonth = initialDates$Month[i], initialPredictYear = initialDates$Year[i], predictPeriod = predictPeriod, trainPeriod = 48)
   pred48[,(2*i)] <- tail(tempForecastSet$Predictions, 12)
 }
 
@@ -163,7 +163,7 @@ rownames(mapeMeans) <- c('pred6', 'pred12', 'pred18', 'pred24', 'pred36', 'pred4
 mapeMeans$MapeMean <- rowMeans(mapePerformance, na.rm=TRUE)
 mapePerformance$MapeMean <- rowMeans(mapePerformance, na.rm=TRUE)
 
-png('monthlyBulkPerformanceMAPE_YVW.png', height = 50*nrow(mapePerformance), width=200*ncol(mapePerformance))
+png('monthlyNonResPerformanceMAPE_YVW.png', height = 50*nrow(mapePerformance), width=200*ncol(mapePerformance))
 grid.table(mapePerformance)
 dev.off()
 
@@ -186,7 +186,7 @@ rownames(RMSEMeans) <- c('pred6', 'pred12', 'pred18', 'pred24', 'pred36', 'pred4
 RMSEMeans$RMSEMean <- rowMeans(RMSEPerformance, na.rm=TRUE)
 RMSEPerformance$RMSEMean <- rowMeans(RMSEPerformance, na.rm=TRUE)
 
-png('monthlyBulkPerformanceRMSE_YVW.png', height = 50*nrow(RMSEPerformance), width=200*ncol(RMSEPerformance))
+png('monthlyNonResPerformanceRMSE_YVW.png', height = 50*nrow(RMSEPerformance), width=200*ncol(RMSEPerformance))
 grid.table(RMSEPerformance)
 dev.off()
 
